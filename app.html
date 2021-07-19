@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bigmart Sales Prediction</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+<script type="text/javascript">
+        
+  function onClickedEstimatePrice() {
+  //console.log("Estimate price button clicked");
+    
+    var itemWeight = document.getElementById("iw");
+    var itemVisibility = document.getElementById("iv");
+    var itemMRP = document.getElementById("im");
+    var outletIdentifier = document.getElementById("oi");
+    var years = document.getElementById("oa");
+    var itemFatcontent = document.getElementById("ifc");
+    var category = document.getElementById("ft");   
+    var itemType = document.getElementById("it");
+    var outletSize = document.getElementById("os");
+    var outletLocationtype = document.getElementById("olt");
+    var outletType = document.getElementById("ot");
+     
+    var estPrice = document.getElementById("uiEstimatedPrice");
+
+
+  var url = "http://127.0.0.1:5000/predict_sales_price"; //Use this if you are NOT using nginx which is first 7 tutorials
+ // var url = "/api/predict_home_price"; // Use this if  you are using nginx. i.e tutorial 8 and onwards
+
+  $.post(url, {
+      
+      item_weight: parseFloat(itemWeight.value),
+      item_visibility: parseFloat(itemVisibility.value),
+      item_MRP: parseFloat(itemMRP.value),
+      outlet_identifier: parseFloat(outletIdentifier.value),
+      years: parseFloat(years.value),
+      cat: category.value,
+      item_fat_content: itemFatcontent.value,
+      item_type: itemType.value,
+      outlet_size: outletSize.value,
+      outlet_city: outletLocationtype.value,
+      outlet_type: outletType.value
+      
+      
+  },function(data, status) {
+      console.log(data.estimated_sales);
+      estPrice.innerHTML = "<h2>" + data.estimated_sales.toString() + "</h2>";
+      console.log(status);
+  });
+}
+        
+</script>
+    
+	<link rel="stylesheet" href="app.css">
+    
+</head>
+<body>
+<div class="img"></div>
+<form class="form">
+    <h1>Big Mart Sales Prediction</h1>
+	<h2>Item Weight</h2>
+    <input class="area"  type="text" id="iw" class="floatLabel" name="Squareft" value="9.30">
+    
+    <h2>Item Visibility</h2>
+    <input class="area"  type="text" id="iv" class="floatLabel" name="Squareft" value="0.02">
+    
+    <h2>Item MRP</h2>
+    <input class="area"  type="text" id="im" class="floatLabel" name="Squareft" value="250.00">
+    
+    <h2>Outlet Identifier</h2>
+    <input class="area"  type="text" id="oi" class="floatLabel" name="Squareft" value="49">
+    
+    <h2>Outlet Age</h2>
+    <input class="area"  type="text" id="oa" class="floatLabel" name="Squareft" value="7">
+       
+     
+    <h2>Food Type</h2>
+	<div>
+  <select class="location" name="" id="ft">
+    <option value="" disabled="disabled" selected="selected">Choose an Option</option>
+		<option>dr</option>
+        <option>fd</option>
+        <option>nc</option>
+  </select>
+</div>
+	
+    
+		<h2>Item Fat Content</h2>
+	<div>
+  <select class="location" name="" id="ifc">
+    <option value="" disabled="disabled" selected="selected">Choose an Option</option>
+		<option>lf</option>
+        <option>ne</option>
+        <option>reg</option>
+  </select>
+</div>
+    
+    <h2>Item Type</h2>
+	<div>
+  <select class="location" name="" id="it">
+    <option value="" disabled="disabled" selected="selected">Choose an Option</option>
+		<option>baking goods</option>
+        <option>canned</option>
+        <option>dairy</option>
+        <option>frozen foods</option>
+        <option>fruits and vegetables</option>
+        <option>health and hygiene</option>
+        <option>household</option>
+        <option>meat</option>
+        <option>others</option>
+        <option>snack foods</option>
+        <option>soft drinks</option>
+  </select>
+</div>
+    
+    <h2>Outlet Size</h2>
+	<div>
+  <select class="location" name="" id="os">
+    <option value="" disabled="disabled" selected="selected">Choose an Option</option>
+		<option>high</option>
+        <option>medium</option>
+        <option>small</option>
+  </select>
+</div>
+    
+    <h2>Outlet Location Type</h2>
+	<div>
+  <select class="location" name="" id="olt">
+    <option value="" disabled="disabled" selected="olt">Choose an Option</option>
+		<option>tier 1</option>
+        <option>tier 2</option>
+        <option>tier 3</option>
+  </select>
+</div>
+    
+    <h2>Outlet Type</h2>
+	<div>
+  <select class="location" name="" id="ot">
+    <option value="" disabled="disabled" selected="selected">Choose an Option</option>
+		<option>Grocery Store</option>
+        <option>supermarket type1</option>
+        <option>supermarket type2</option>
+        <option>supermarket type3</option>
+        </select>
+</div>
+    
+    
+   
+    
+	<button class="submit" onclick="onClickedEstimatePrice()" type="button">Estimate Sales Value</button>
+    
+	<div id="uiEstimatedPrice" class="result">	<h2></h2> </div>
+    
+</form>
+</body>
+</html>
